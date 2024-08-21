@@ -1,0 +1,461 @@
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<stdlib.h>
+#include<iomanip>
+using namespace std;
+
+class student   //student类
+{ private:
+     int  number; //学号
+     char name[20]; //姓名i
+     int age;//年龄
+     char sex[3];//性别
+     int  year,month;//出生年月
+     char address[30];
+     char tele[13];
+     char email[25];
+    
+  public:
+	 student(){}
+     student(char na[20],int nu, int a,char s[3],int y,int mon,char ad[30],char te[13],char em[25])
+     {strcpy(name,na);
+      strcpy(address,ad);
+      strcpy(tele,te);
+      strcpy(email,em);
+	  strcpy(sex,s);
+      age=a;
+      year=y;month=mon;
+      number=nu;
+   }
+
+ friend void menu();//友元函数
+};
+
+
+void menu()
+{cout<<"      ******************************************"<<endl; 
+ cout<<"                   学生成绩管理系统             "<<endl;
+ cout<<"      ******************************************"<<endl;
+ cout<<"              **************************"<<endl;
+ cout<<"              *   主菜单命令如下所示： *"<<endl;
+ cout<<"              *     1、输入数据        *"<<endl;
+ cout<<"              *     2、增加数据        *"<<endl;
+ cout<<"              *     3、修改数据      　*"<<endl;
+ cout<<"              *     4、信息查询        *"<<endl;
+ cout<<"              *     5、信息浏览        *"<<endl;
+ cout<<"              *     6、信息删除        *"<<endl;
+ cout<<"              *     7、退出系统        *"<<endl;
+ cout<<"              **************************"<<endl;
+ 
+ cout<<"               请输入您的指令数字（1~6）"<<endl<<"  ";
+ char p;char w;
+ student stu[50];
+ student *s[50];
+ ifstream in;
+ ofstream out;
+ fstream f;  //输入输出对象
+ int i=0;
+ int j=0;
+ int flag=0;
+ 
+
+ do                     //flag判断输入是否有效
+ {
+   cin>>p;
+   if(p>='0'&&p<='6')
+   flag=1;
+   else
+   cout<<"  指令错误！请重新输入："<<endl;
+ }while(flag==0);
+
+
+
+ do{      //最外层循环
+    switch(p) //接收功能选项
+	 {
+
+       case '1':  //信息输入
+		 { int number;char name[20]; int age;char sex[3];int year,month; 
+          char address[30]; char tele[13];char email[25]; char c;
+          out.open("E:\\a.dat",ios::app);
+           do{ 
+               cout<<endl<<"  请输入学生姓名:";
+               cin>>name;
+               cout<<endl<<"  请输入学生学号:";
+               cin>>number;
+               cout<<endl<<"  请输入年龄:";
+               cin>>age;
+               cout<<endl<<"  请输入性别:";
+               cin>>sex;
+               cout<<endl<<"  请输入出生年分:";
+               cin>>year;
+               cout<<endl<<"  请输入出生月份:";
+               cin>>month;
+               cout<<endl<<"  请输入地址：";
+               cin>>address;
+               cout<<endl<<"  请输入电话：";
+               cin>>tele;
+               cout<<endl<<"  请输入邮箱：";
+               cin>>email;
+               cout<<endl;
+
+out<<setw(8)<<name<<setw(6)<<number<<setw(6)<<age<<setw(6)<<sex<<setw(8)<<year<<setw(3)<<month<<setw(8)<<address<<setw(14)<<tele<<setw(18)<<email;  //文件输入
+
+     cout<<"  数据输入成功，想继续输入吗？   y / n  : "<<endl<<"    ";
+    
+      cin>>c;
+      cout<<endl;
+   do
+    {
+      if(c!='y'&&c!='n')
+	  {cout<<"  指令错误！请重新输入！"<<endl<<"    ";
+      cin>>c;}
+	 else flag=1;
+     }while(flag==0);
+	 }while(c=='y');
+     out.close();
+    break;
+	}
+
+
+
+  
+case '2':         //增加数据
+      { int number;char name[20]; int age;char sex[3];int year,month; 
+        char address[30]; char tele[13];char email[25];
+		char c;
+out.open("E:\\a.dat",ios::app);
+do{ 
+     cout<<endl<<"  请输入学生姓名:";
+     cin>>name;
+     cout<<endl<<"  请输入学生学号:";
+     cin>>number;
+     cout<<endl<<"  请输入年龄:";
+     cin>>age;
+     cout<<endl<<"  请输入性别:";
+     cin>>sex;
+     cout<<endl<<"  请输入出生年分:";
+     cin>>year;
+     cout<<endl<<"  请输入出生月份:";
+     cin>>month;
+     cout<<endl<<"  请输入地址：";
+     cin>>address;
+     cout<<endl<<"  请输入电话：";
+     cin>>tele;
+     cout<<endl<<"  请输入邮箱：";
+     cin>>email;
+     cout<<endl;
+
+	 out<<setw(8)<<name<<setw(6)<<number<<setw(6)<<age<<setw(6)<<sex<<setw(8)<<year<<setw(3)<<month<<setw(8)<<address<<setw(14)<<tele<<setw(18)<<email;  //文件输入
+
+     cout<<"  数据添加成功，想继续添加吗？  y / n  :"<<endl;
+     cin>>c;
+     cout<<endl;
+	 if(c=='n')break;
+     if(c!='y'&&c!='n')
+     {cout<<"  指令错误！请重新输入！"<<endl<<"     ";
+      cin>>c;}
+     }while(c=='y');
+    out.close();
+    break;
+   }
+
+
+ 
+case '3':                    //修改数据
+        { int number;char name[20]; int age;char sex[3];int year,month; 
+          char address[30]; char tele[13];char email[25];
+          char ad[30],te[13],em[25],na[20],s[3],c;
+          int a,y,mon,nu;
+
+    do
+    {int flag=0;
+     cout<<"  请输入您要修改的学生的姓名:"<<endl;
+     cin>>na;
+     cout<<endl;
+
+	 f.open("E:\\a.dat",ios::in|ios::out);
+     f.seekg(0,ios::beg);
+	 f.clear();
+
+	  while(!f.eof())
+	  {f>>name;
+       if(strcmp(name,na)==0)
+	   {flag=1;
+
+         cout<<endl<<"  请输入学生学号:";
+         cin>>nu;
+         cout<<endl<<"  请输入年龄:";
+         cin>>a;
+         cout<<endl<<"  请输入性别:";
+         cin>>s;
+         cout<<endl<<"  请输入出生年分:";
+         cin>>y;
+		 cout<<endl<<"  请输入出生月分:";
+         cin>>mon;
+         cout<<endl<<"  请输入地址：";
+         cin>>ad;
+         cout<<endl<<"  请输入电话：";
+         cin>>te;
+         cout<<endl<<"  请输入邮箱：";
+         cin>>em; 
+         cout<<endl;
+         strcpy(address,ad);//修改过程
+         strcpy(tele,te);
+         strcpy(name,na);
+         strcpy(email,em);
+		 strcpy(sex,s);
+         age=a;
+         year=y;month=mon;
+         number=nu;
+
+     f.seekp(0,ios::cur);
+f<<setw(6)<<nu<<setw(6)<<a<<setw(6)<<s<<setw(8)<<y<<setw(3)<<mon<<setw(8)<<ad<<setw(14)<<te<<setw(18)<<em;
+	   cout<<"  修改成功!  "<<endl<<endl;break;}
+	  }
+	  f.close();
+   
+     if(flag==0)
+     cout<<"  您要修改的学生不存在！"<<endl<<endl;
+	
+     cout<<"  您想继续修改吗？ y / n   :"<<endl<<"     ";
+	 cin>>c;
+     cout<<endl;
+     if(c=='n')break;
+     if(c!='y'&&c!='n')
+     {cout<<"  指令错误！请重新输入！"<<endl;
+     cin>>c;}
+
+	}while(c=='y');
+
+    break;
+	}
+
+ 
+  
+case '4':                  //信息查询
+	{ int number;char name[20]; int age;char sex[3];int year,month; 
+      char address[30];
+      char tele[13];
+      char email[25]; char c;
+
+	  cout<<"请选择您要进行查询的方式："<<endl<<endl<<"1.按姓名查询"<<endl<<endl<<"2.按学号查询"<<endl;
+      int k; 
+	  cin>>k;
+   switch(k)
+
+      case 1:   //按姓名查询
+
+   {char na[20]; 
+     //if(i==0)
+     // {cout<<"  管理系统中没有输入数据！"<<endl;break;} 
+	
+    do{
+        in.open("E:\\a.dat",ios::in);
+	    in.seekg(0,ios::beg);
+	    in.clear();
+        int flag=0;
+
+        cout<<"  请输入你要查询的学生姓名:"<<endl;
+        cin>>na;
+        cout<<endl;
+        
+	    while(!in.eof())
+		{in>>name>>number>>age>>sex>>year>>month>>address>>tele>>email;      
+		if(strcmp(name,na)==0)
+        {flag=1;
+         cout<<"您要查询的学生:"<<name<<"的信息是: "<<endl<<endl;
+         cout<<"   姓名    学号  年龄  性别     生 日    地址      电话            邮箱"<<endl;
+     cout<<setw(8)<<name<<setw(6)<<number<<setw(6)<<age<<setw(6)<<sex<<setw(8)<<year<<setw(3)<<month<<setw(8)<<address<<setw(14)<<tele<<setw(18)<<email<<endl;}
+   }
+        in.close();
+     
+	 
+	 if(flag==0) cout<<"  对不起!您要查询的学生不存在!"<<endl<<endl;
+      cout<<"  您想继续查询吗？ y / n  :";
+      cin>>c;
+      cout<<endl;
+      if(c=='n')break;
+      if(c!='y'&&c!='n')
+      {cout<<"  指令错误！请重新输入！"<<endl<<"      ";
+      cin>>c;}
+    
+	}while(c=='y');
+
+     break;
+      case 2 :   //按学号查询
+
+	{int nu;
+     
+    do{
+        int flag=0;
+        cout<<"  请输入你要查询的学生的学号:"<<endl;
+        cin>>nu;
+        cout<<endl;
+
+        in.open("E:\\a.dat",ios::in);
+	    in.seekg(0,ios::beg);
+	    in.clear();
+
+        while(!in.eof())
+		{in>>name>>number>>age>>sex>>year>>month>>address>>tele>>email;          
+		if(number==nu)
+        {flag=1;
+         cout<<"您要查询的学生:"<<name<<"的信息是: "<<endl<<endl;
+         cout<<"   姓名    学号  年龄  性别     生 日    地址      电话            邮箱"<<endl;
+        cout<<setw(8)<<name<<setw(6)<<number<<setw(6)<<age<<setw(6)<<sex<<setw(8)<<year<<setw(3)<<month<<setw(8)<<address<<setw(14)<<tele<<setw(18)<<email<<endl;
+		}
+
+		}
+
+        in.close();
+	    if(flag==0)
+	    cout<<"  对不起!您要查询的学生不存在!"<<endl;
+        cout<<"  您想继续查询吗？  y / n  :";
+        cin>>c;
+        cout<<endl;
+        if(c=='n')break;
+        if(c!='y'&&c!='n')
+		{cout<<"  指令错误！请重新输入！"<<endl<<"       ";
+        cin>>c;}
+
+	}while(c=='y');
+    break;
+   
+   default:cout<<"对不起，您输入的指令有误：";}break;
+   }
+  break;
+
+
+case '5':           //信息浏览
+	{ int number;char name[20]; int age;char sex[3];int year,month; 
+      char address[30];
+      char tele[13];
+      char email[25];
+
+	 in.open("E:\\a.dat",ios::in);
+	 in.seekg(0,ios::beg);
+	 in.clear();
+	 if(in.get()==EOF){cout<<"  文件中已无数据"<<endl<<endl;in.close();break;}
+	 cout<<"  本系统所有学生信息如下："<<endl<<endl;
+     cout<<"   姓名    学号  年龄  性别     生 日    地址      电话            邮箱"<<endl;
+
+     while(!in.eof())
+	{in>>name>>number>>age>>sex>>year>>month>>address>>tele>>email;	 
+	cout<<setw(8)<<name<<setw(6)<<number<<setw(6)<<age<<setw(6)<<sex<<setw(8)<<year<<setw(3)<<month<<setw(8)<<address<<setw(14)<<tele<<setw(18)<<email<<endl;		}
+
+	 in.close();
+	 
+     break;
+   }
+
+
+case'6':            //信息删除
+	{ int number;char name[20]; int age;char sex[3];int year,month; 
+      char address[30];char tele[13];char email[25];
+      char na[20];      
+      char c;
+	  int k;
+    do
+    {int n=0;int flag=0;
+     cout<<"  请输入您要删除的学生的姓名:"<<endl;
+     cin>>na;
+     cout<<endl;
+
+     in.clear();
+     in.open("E:\\a.dat",ios::in);
+     in.seekg(0,ios::beg);
+	 
+
+	  while(!in.eof())
+	 {in>>name>>number>>age>>sex>>year>>month>>address>>tele>>email;		  
+	   s[n]=new student(name,number,age,sex,year,month,address,tele,email);
+	   stu[n]=*s[n];
+	   delete s[n];
+	   n++;}
+       in.close();
+
+	   for(i=0;i<n;i++)
+        {if(strcmp(stu[i].name,na)==0)	   
+{flag=1;k=i;}
+	     }
+
+     if(flag==1)
+	 {out.open("E:\\a.dat",ios::out);
+      out.seekp(0,ios::beg);
+      if(n>1)
+	  {
+	  for(i=0;i<k;i++)
+	  {out<<setw(8)<<stu[i].name<<setw(6)<<stu[i].number<<setw(6)<<stu[i].age<<setw(6)<<stu[i].sex<<setw(8)<<stu[i].year<<setw(3)<<stu[i].month<<setw(8)<<stu[i].address<<setw(14)<<stu[i].tele<<setw(18)<<stu[i].email;}
+      for(i=k+1;i<n;i++)
+	  {out<<setw(8)<<stu[i].name<<setw(6)<<stu[i].number<<setw(6)<<stu[i].age<<setw(6)<<stu[i].sex<<setw(8)<<stu[i].year<<setw(3)<<stu[i].month<<setw(8)<<stu[i].address<<setw(14)<<stu[i].tele<<setw(18)<<stu[i].email;}
+	  cout<<"   信息删除成功"<<endl<<endl;
+	  }
+	  if(n=1){}
+	  out.close();
+	}
+
+     else 
+     cout<<"  您要删除的学生不存在！"<<endl<<endl;
+	
+     cout<<"  您想继续删除吗？ y / n   :"<<endl;
+	 cin>>c;
+     cout<<endl;
+     if(c=='n')break;
+     if(c!='y'&&c!='n')
+     {cout<<"  指令错误！请重新输入！"<<endl<<"     ";
+     cin>>c;}
+
+	}while(c=='y');
+
+    break;
+	}
+
+
+
+
+case'7':           //退出
+	   {cout<<"Bye bye! See you next time."<<endl<<endl;
+	   cout<<"  dalong制作"<<endl<<endl<<endl;exit(0); }break; }
+
+}//以上为menu菜单中switch控制语句
+
+  
+
+cout<<"  您想继续进行其他操作吗？  y / n  :"<<endl<<" ";//以下控制循环语句
+int flag=0;
+
+do{cin>>w;
+ cout<<endl;
+ if(w=='n')exit(0);
+ if(w!='y'&&w!='n')
+   cout<<"  指令错误！请重新输入！"<<endl;
+ else
+   flag=1;
+}while(flag==0);
+
+
+if(w=='y')
+{cout<<" 请输入操作代码:  1 输入数据"<<endl;
+ cout<<"                  2 增加数据"<<endl;
+ cout<<"                  3 修改数据"<<endl;
+ cout<<"                  4 信息查询"<<endl;
+ cout<<"                  5 信息浏览"<<endl;
+ cout<<"                  6 信息删除"<<endl;
+ cout<<"                  7 退出系统"<<endl;}
+
+cin>>p;
+
+
+}while(w=='y');//最外层的do-while循环
+
+}//menu函数结束
+
+
+
+int main()
+{
+menu();
+return 0;
+}
